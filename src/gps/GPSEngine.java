@@ -1,13 +1,16 @@
 package gps;
 
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Queue;
+
 import gps.api.GPSProblem;
 import gps.api.GPSRule;
 import gps.api.GPSState;
 import gps.exception.NotAppliableException;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Queue;
 
 public abstract class GPSEngine {
 
@@ -18,12 +21,16 @@ public abstract class GPSEngine {
 
 	// Use this variable in open set order.
 	protected SearchStrategy strategy;
+	
+	
+	public GPSEngine(Comparator<GPSNode> comparator){
+		open = new PriorityQueue<>(comparator);
+	}
 
-	public void engine(GPSProblem myProblem, SearchStrategy myStrategy) {
+	public void engine(GPSProblem myProblem) {
 
 		problem = myProblem;
-		strategy = myStrategy;
-
+		
 		GPSNode rootNode = new GPSNode(problem.getInitState(), 0);
 		boolean finished = false;
 		boolean failed = false;
