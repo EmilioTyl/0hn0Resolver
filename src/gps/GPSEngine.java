@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
 
-public abstract class GPSEngine {
+public class GPSEngine {
 
 	protected Queue<GPSNode> open;
 	protected Map<GPSState, Integer> bestCosts = new HashMap<GPSState, Integer>();
@@ -19,11 +19,18 @@ public abstract class GPSEngine {
 	// Use this variable in open set order.
 	protected SearchStrategy strategy;
 
-	public void engine(GPSProblem myProblem, SearchStrategy myStrategy) {
+
+
+	
+
+	
+
+	public void engine(GPSProblem myProblem, SearchStrategy myStrategy, Queue<GPSNode> open) {
 
 		problem = myProblem;
 		strategy = myStrategy;
-
+		this.open = open;
+		
 		GPSNode rootNode = new GPSNode(problem.getInitState(), 0);
 		boolean finished = false;
 		boolean failed = false;
