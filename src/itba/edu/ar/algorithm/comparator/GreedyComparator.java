@@ -1,15 +1,15 @@
-package itba.edu.ar.resolver.algorithm;
+package itba.edu.ar.algorithm.comparator;
 
 import java.util.Comparator;
 
 import itba.edu.ar.gps.GPSNode;
 import itba.edu.ar.gps.api.GPSProblem;
 
-public class Greedy implements Comparator<GPSNode> {
+public class GreedyComparator implements Comparator<GPSNode> {
 
 	private GPSProblem problem;
 	
-	public Greedy(GPSProblem problem) {
+	public GreedyComparator(GPSProblem problem) {
 		this.problem=problem;
 	}
 	

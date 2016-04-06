@@ -1,10 +1,10 @@
-package itba.edu.ar.resolver.algorithm;
+package itba.edu.ar.algorithm.comparator;
 
 import java.util.Comparator;
 
 import itba.edu.ar.gps.GPSNode;
 
-public class BFS implements Comparator<GPSNode>{
+public class BFSComparator implements Comparator<GPSNode>{
 
 	//Always o1 < o2
 	@Override

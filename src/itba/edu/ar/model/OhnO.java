@@ -75,7 +75,6 @@ public class OhnO implements GPSState {
 		return true;
 	}
 
-	@Override
 	public boolean isGoal() {
 		for (Point numberPosition : numbersPositions) {
 			if (weight(numberPosition) != 0)
@@ -188,13 +187,25 @@ public class OhnO implements GPSState {
 		return sb.toString();
 	}
 
-	public void flipIsolatedFloors() {
+	private boolean hasIsolatedFloors() {
 		for (int i = 0; i < boardX; i++) {
 			for (int j = 0; j < boardY; j++) {
 				if (board[i][j].isFloor() && isIsolated(i, j))
-					board[i][j] = tokenFactory.getWall();
+					return true;
 			}
 		}
+		return false;
+	}
+	
+	private int getIsolatedFloorsQuantity() {
+		int ans = 0;
+		for (int i = 0; i < boardX; i++) {
+			for (int j = 0; j < boardY; j++) {
+				if (board[i][j].isFloor() && isIsolated(i, j))
+					ans++;
+			}
+		}
+		return ans;
 	}
 
 	private boolean isIsolated(int i, int j) {
@@ -217,6 +228,14 @@ public class OhnO implements GPSState {
 			y += direction.getY();
 		}
 		return true;
+	}
+
+	public boolean isFinalGoal() {
+		return !hasIsolatedFloors();		
+	}
+
+	public int hFinalGoal() {
+		return getIsolatedFloorsQuantity();
 	}
 
 }

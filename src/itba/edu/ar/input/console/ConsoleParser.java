@@ -2,83 +2,52 @@ package itba.edu.ar.input.console;
 
 import java.io.IOException;
 
-import itba.edu.ar.gps.GPSEngine;
+import itba.edu.ar.algorithm.Algorithm;
+import itba.edu.ar.algorithm.impl.AStar;
+import itba.edu.ar.algorithm.impl.BFS;
+import itba.edu.ar.algorithm.impl.DFS;
+import itba.edu.ar.algorithm.impl.Greedy;
+import itba.edu.ar.algorithm.impl.IDFS;
 import itba.edu.ar.gps.api.GPSProblem;
 import itba.edu.ar.input.FileParser;
 import itba.edu.ar.resolver.OhnOProblem;
-import itba.edu.ar.resolver.algorithm.AStar;
-import itba.edu.ar.resolver.algorithm.BFS;
-import itba.edu.ar.resolver.algorithm.DFS;
-import itba.edu.ar.resolver.algorithm.Greedy;
-import itba.edu.ar.resolver.cost.ConstantCost;
-import itba.edu.ar.resolver.cost.NoCost;
 
 public class ConsoleParser {
 
 	public static void main(String[] args) throws IOException, InstantiationException, IllegalAccessException {
 
-		String algorithm = args[0];
+		String algorithmName = args[0];
 		String board = args[1];
 		FileParser fp = new FileParser();
 		fp.parseFile(board);
-
-		switch (algorithm) {
+		Algorithm algorithm = null;
+		
+		switch (algorithmName) {
 		case "dfs":
-			dfs(fp);
+			algorithm = new DFS();
 			break;
 		case "bfs":
-			bfs(fp);
+			algorithm = new BFS();
 			break;
 		case "astar":
-			aStart(fp);
+			algorithm = new AStar();
 			break;
 		case "greedy":
-			greedy(fp);
+			algorithm = new Greedy();
 			break;
 		case "idfs":
-			idfs(fp);
+			algorithm = new IDFS();
 			break;
 		}
+		
+		GPSProblem problem = getProblem(algorithm,fp);
+		algorithm.execute(problem);
 
 	}
-
-	private static void idfs(FileParser fp) {
-		GPSProblem problem = new OhnOProblem(new ConstantCost(), fp.getBoardX(), fp.getBoardY(), fp.getTokens());
-		boolean finished = false;
-		int iteration = 1;
-		while (!finished) {
-			GPSEngine engine = new GPSEngine(new DFS(), problem, iteration);
-			finished = engine.engine();
-			System.out.println("vuelta " + iteration);
-			iteration++;
-		}
+	
+	private static GPSProblem getProblem(Algorithm algorithm,FileParser fp){
+		return new OhnOProblem(algorithm, fp.getBoardX(), fp.getBoardY(), fp.getTokens());
 	}
 
-	private static void dfs(FileParser fp) {
-		GPSProblem problem = new OhnOProblem(new ConstantCost(), fp.getBoardX(), fp.getBoardY(), fp.getTokens());
-		GPSEngine engine = new GPSEngine(new DFS(), problem);
-		engine.engine();
-	}
-
-	private static void greedy(FileParser fp) {
-		GPSProblem problem = new OhnOProblem(new NoCost(), fp.getBoardX(), fp.getBoardY(), fp.getTokens());
-		GPSEngine engine = new GPSEngine(new Greedy(problem), problem);
-		engine.engine();
-
-	}
-
-	private static void aStart(FileParser fp) {
-		GPSProblem problem = new OhnOProblem(new ConstantCost(), fp.getBoardX(), fp.getBoardY(), fp.getTokens());
-		GPSEngine engine = new GPSEngine(new AStar(problem), problem);
-		engine.engine();
-
-	}
-
-	private static void bfs(FileParser fp) {
-		GPSProblem problem = new OhnOProblem(new ConstantCost(), fp.getBoardX(), fp.getBoardY(), fp.getTokens());
-		GPSEngine engine = new GPSEngine(new BFS(), problem);
-		engine.engine();
-
-	}
 
 }
