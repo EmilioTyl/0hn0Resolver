@@ -1,4 +1,4 @@
-package itba.edu.ar.resolver.cost;
+package itba.edu.ar.algorithm.cost;
 
 public interface Cost {
 

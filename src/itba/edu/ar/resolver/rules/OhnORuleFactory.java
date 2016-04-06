@@ -6,11 +6,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import itba.edu.ar.algorithm.cost.Cost;
 import itba.edu.ar.gps.api.GPSRule;
 import itba.edu.ar.model.Direction;
 import itba.edu.ar.model.OhnO;
 import itba.edu.ar.model.Token;
-import itba.edu.ar.resolver.cost.Cost;
 
 public class OhnORuleFactory {
 

@@ -46,23 +46,22 @@ public class GPSEngine {
 				GPSNode currentNode = open.remove();
 				if (problem.isGoal(currentNode.getState())) {
 					finished = true;
-					problem.goalState(currentNode.getState());
 					System.out.println(currentNode.getSolution());
 					System.out.println("Expanded nodes: " + explosionCounter);
 					System.out.println("Solution cost: " + currentNode.getCost());
+					System.out.println("OK! solution found!");
+					problem.goalState(currentNode.getState());
 				} else {
 					explosionCounter++;
-					System.out.println(explosionCounter);
 					if(!(maxDepthActivated && currentNode.getDepth()>= maxDepth))
 						explode(currentNode);
 				}
 			}
 		}
-		if (finished) {
-			System.out.println("OK! solution found!");
-		} else if (failed) {
+
+		if (failed)
 			System.err.println("FAILED! solution not found!");
-		}
+	
 		return finished;
 	}
 
