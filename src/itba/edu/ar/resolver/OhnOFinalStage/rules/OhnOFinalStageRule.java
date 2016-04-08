@@ -1,4 +1,4 @@
-package itba.edu.ar.OhnOFinalStageResolver.rules;
+package itba.edu.ar.resolver.OhnOFinalStage.rules;
 
 import java.awt.Point;
 import java.util.LinkedList;
@@ -8,7 +8,7 @@ import itba.edu.ar.algorithm.cost.Cost;
 import itba.edu.ar.gps.api.GPSRule;
 import itba.edu.ar.model.OhnO;
 import itba.edu.ar.model.Token;
-import itba.edu.ar.resolver.rules.OhnORule;
+import itba.edu.ar.resolver.OhnO.rules.OhnORule;
 
 public class OhnOFinalStageRule {
 

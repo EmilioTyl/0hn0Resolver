@@ -9,15 +9,18 @@ import itba.edu.ar.algorithm.impl.DFS;
 import itba.edu.ar.algorithm.impl.Greedy;
 import itba.edu.ar.algorithm.impl.IDFS;
 import itba.edu.ar.gps.api.GPSProblem;
+import itba.edu.ar.gps.api.GPSStatistics;
+import itba.edu.ar.gps.impl.BasicStatistics;
 import itba.edu.ar.heuristic.Heuristic;
 import itba.edu.ar.heuristic.impl.H1;
 import itba.edu.ar.heuristic.impl.H2;
 import itba.edu.ar.input.FileParser;
 import itba.edu.ar.model.OhnO;
-import itba.edu.ar.resolver.OhnOProblem;
+import itba.edu.ar.resolver.OhnO.OhnOProblem;
 
 public class ConsoleParser {
 
+	
 	public static void main(String[] args) throws IOException, InstantiationException, IllegalAccessException {
 
 		String algorithmName = args[0];
@@ -27,6 +30,7 @@ public class ConsoleParser {
 		fp.parseFile(board);
 		Algorithm algorithm = null;
 		Heuristic heuristic = null;
+		GPSStatistics statistics = new BasicStatistics("Phase 1");
 
 		switch (heuristicName) {
 		case "h1":
@@ -55,18 +59,18 @@ public class ConsoleParser {
 			break;
 		}
 
-		GPSProblem problem = getProblem(algorithm, heuristic, fp);
+		GPSProblem problem = getProblem(algorithm, heuristic, fp,statistics);
 
 		OhnO state = ((OhnO) problem.getInitState());
 		System.out.println("Running 0hn0 board using:\n\tAlgorithm: " + algorithm.toString() + "\n\tHeuristic: "
 				+ heuristic.toString() + "\n\tBoard dimensions: " + state.getBoardX() + "x" + state.getBoardY());
 
-		algorithm.execute(problem);
+		algorithm.execute(problem,statistics);
 
 	}
 
-	private static GPSProblem getProblem(Algorithm algorithm, Heuristic heuristic, FileParser fp) {
-		return new OhnOProblem(algorithm, heuristic, fp.getBoardX(), fp.getBoardY(), fp.getTokens());
+	private static GPSProblem getProblem(Algorithm algorithm, Heuristic heuristic, FileParser fp, GPSStatistics statistics) {
+		return new OhnOProblem(algorithm, heuristic, fp.getBoardX(), fp.getBoardY(), fp.getTokens(),statistics);
 	}
 
 }

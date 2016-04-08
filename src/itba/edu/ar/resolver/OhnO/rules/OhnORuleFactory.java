@@ -1,4 +1,4 @@
-package itba.edu.ar.resolver.rules;
+package itba.edu.ar.resolver.OhnO.rules;
 
 import java.awt.Point;
 import java.util.HashSet;
