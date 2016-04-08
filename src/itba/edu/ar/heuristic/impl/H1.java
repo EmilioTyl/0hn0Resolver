@@ -20,5 +20,10 @@ H1 extends Heuristic{
 		return ans;
 	}
 	
+	@Override
+	public String toString() {
+		return "H1 - Total board seen tiles dephasing";
+	}
+	
 	
 }

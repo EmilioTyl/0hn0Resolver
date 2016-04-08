@@ -19,5 +19,10 @@ public class Greedy implements Algorithm{
 		GPSEngine engine = new GPSEngine(new GreedyComparator(problem), problem);
 		engine.engine();
 	}
+	
+	@Override
+	public String toString() {
+		return "Greedy";
+	}
 
 }

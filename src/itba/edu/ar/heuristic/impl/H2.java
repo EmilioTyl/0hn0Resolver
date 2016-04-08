@@ -148,5 +148,10 @@ public class H2 extends Heuristic {
 		}
 
 	}
+	
+	@Override
+	public String toString() {
+		return "H2 - (Plays/Number of walls) lower boundary";
+	}
 
 }

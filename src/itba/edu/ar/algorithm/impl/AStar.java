@@ -21,6 +21,8 @@ public class AStar implements Algorithm{
 		engine.engine();
 	}
 
-	
-	
+	@Override
+	public String toString() {
+		return "A*";
+	}
 }

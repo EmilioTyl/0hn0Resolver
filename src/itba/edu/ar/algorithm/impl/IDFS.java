@@ -25,5 +25,10 @@ public class IDFS implements Algorithm{
 			iteration++;
 		}		
 	}
+	
+	@Override
+	public String toString() {
+		return "IDFS";
+	}
 
 }

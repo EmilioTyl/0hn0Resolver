@@ -13,6 +13,7 @@ import itba.edu.ar.heuristic.Heuristic;
 import itba.edu.ar.heuristic.impl.H1;
 import itba.edu.ar.heuristic.impl.H2;
 import itba.edu.ar.input.FileParser;
+import itba.edu.ar.model.OhnO;
 import itba.edu.ar.resolver.OhnOProblem;
 
 public class ConsoleParser {
@@ -55,6 +56,11 @@ public class ConsoleParser {
 		}
 
 		GPSProblem problem = getProblem(algorithm, heuristic, fp);
+
+		OhnO state = ((OhnO) problem.getInitState());
+		System.out.println("Running 0hn0 board using:\n\tAlgorithm: " + algorithm.toString() + "\n\tHeuristic: "
+				+ heuristic.toString() + "\n\tBoard dimensions: " + state.getBoardX() + "x" + state.getBoardY());
+
 		algorithm.execute(problem);
 
 	}

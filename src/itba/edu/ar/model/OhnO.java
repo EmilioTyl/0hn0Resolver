@@ -17,6 +17,7 @@ public class OhnO implements GPSState {
 	private TokenFactory tokenFactory = TokenFactory.getInstance();
 	private int boardX;
 	private int boardY;
+	private String move;
 
 	public OhnO(int boardX, int boardY, Map<Point, Token> tokens) {
 		board = new Token[boardX][boardY];
@@ -43,11 +44,12 @@ public class OhnO implements GPSState {
 		
 	}
 
-	private OhnO(Token[][] board, List<Point> numbersPositions) {
+	private OhnO(Token[][] board, List<Point> numbersPositions, String move) {
 		this.board = board;
 		this.boardX = board[0].length;
 		this.boardY = board.length;
 		this.numbersPositions = numbersPositions;
+		this.move=move;
 	}
 
 	@Override
@@ -121,15 +123,15 @@ public class OhnO implements GPSState {
 	}
 
 
-	public GPSState placeRed(Point redPosition) throws NotAppliableException {
+	public GPSState placeWall(Point wallPosition, String move) throws NotAppliableException {
 
-		if (board[redPosition.x][redPosition.y].isWall())
+		if (board[wallPosition.x][wallPosition.y].isWall())
 			throw new NotAppliableException();
 
 		Token[][] ans = copy();
-		ans[redPosition.x][redPosition.y] = tokenFactory.getWall();
+		ans[wallPosition.x][wallPosition.y] = tokenFactory.getWall();
 
-		return new OhnO(ans, numbersPositions);
+		return new OhnO(ans, numbersPositions,move);
 	}
 
 	private Token[][] copy() {
@@ -153,7 +155,11 @@ public class OhnO implements GPSState {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-
+		
+		if(move!=null){
+			sb.append(move).append("\n");
+		}
+		
 		for (int i = 0; i < boardX; i++) {
 			for (int j = 0; j < boardY; j++) {
 				sb.append(board[i][j]).append(" ");
@@ -161,7 +167,12 @@ public class OhnO implements GPSState {
 			sb.append("\n");
 		}
 		sb.append("\n").append("---------------").append("\n");
-		return sb.toString();
+		String ans = sb.toString();
+		
+		//The string is reseted for the OhnOFinalStageProblem's initial state.
+		move="";
+		
+		return ans;
 	}
 
 	private boolean hasIsolatedFloors() {

@@ -21,4 +21,9 @@ public class BFS implements Algorithm{
 		
 	}
 
+	@Override
+	public String toString() {
+		return "BFS";
+	}
+	
 }
