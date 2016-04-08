@@ -2,8 +2,6 @@ package itba.edu.ar.model;
 
 import java.awt.Point;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -82,33 +80,44 @@ public class OhnO implements GPSState {
 		return true;
 	}
 
-	public int h1() {
+	public int weight(Point position) {
 		int ans = 0;
-		for (Point numberPosition : numbersPositions) {
-			int weight = weight(numberPosition);
-			if (weight < 0)
-				return Integer.MAX_VALUE;
-			ans += weight;
+		for (Direction direction : Direction.values()) {
+			ans += weight(position, direction);
+		}
+		return ans - board[position.x][position.y].getNumber();
+	}
+	
+	private int weight(Point position, Direction direction) {
+		int x = position.x;
+		int y = position.y;
+
+		int ans = 0;
+		x += direction.getX();
+		y += direction.getY();
+
+		while (canSee(x, y)) {
+			x += direction.getX();
+			y += direction.getY();
+			ans++;
 		}
 		return ans;
 	}
-
 	
-	private Set<Entry<>> 
-	public int h2(){
+	public boolean canSee(int x, int y) {
+		if (!insideBoundaries(board,x, y))
+			return false;
 
+		Token token = board[x][y];
+
+		return !token.isWall();
+	}
+
+	private boolean insideBoundaries(Token[][] board,int x, int y) {
+		int boardX = board[0].length;
+		int boardY = board.length;
 		
-		
-		
-		int ans = 0;
-		for (Point numberPosition : numbersPositions) {
-			int weight = weight(numberPosition);
-			if (weight < 0)
-				return Integer.MAX_VALUE;
-			if(ans!=0)
-				ans++;
-		}
-		return ans;
+		return x >= 0 && x < boardX && y >= 0 && y < boardY;
 	}
 
 

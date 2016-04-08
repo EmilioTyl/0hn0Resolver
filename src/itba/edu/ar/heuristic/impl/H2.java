@@ -11,97 +11,100 @@ import itba.edu.ar.model.Direction;
 import itba.edu.ar.model.OhnO;
 import itba.edu.ar.model.Token;
 
-public class H2 extends Heuristic{
+public class H2 extends Heuristic {
 
 	private static List<Direction> directions = new LinkedList<Direction>();
-	
-	static{
+
+	static {
 		directions.add(Direction.RIGHT);
 		directions.add(Direction.DOWN);
 	}
 
-	
-	
 	@Override
 	public int getHeuristicValue(OhnO state) {
-
 		Set<TokenAndDirection> tokenAndDirections = new HashSet<TokenAndDirection>();
-		if(!fillTokenAndDirection(state, tokenAndDirections))
+		if (!fillTokenAndDirection(state, tokenAndDirections))
 			return Integer.MAX_VALUE;
-				
-		removeInteresectingNumbers(state,tokenAndDirections);
-		
-		
+
+		removeInteresectingNumbers(state, tokenAndDirections);
+
+		return tokenAndDirections.size();
 	}
-	
-	
+
 	private void removeInteresectingNumbers(OhnO state, Set<TokenAndDirection> tokenAndDirections) {
 		Token[][] board = state.getBoard();
-		
-		
-		
-		
+		Set<TokenAndDirection> forDeletion = new HashSet<TokenAndDirection>();
+
+		for (TokenAndDirection tnd : tokenAndDirections) {
+			deleteIfIsInTheSameDirection(state, tnd.getPosition(), tnd.getDirection(), forDeletion);
+		}
+
+		for (TokenAndDirection tnd : forDeletion) {
+			tokenAndDirections.remove(tnd);
+		}
 	}
-	
-	private void weight(Token[][] board,Point position, Direction direction,Set<TokenAndDirection> tokenAndDirections) {
+
+	private void deleteIfIsInTheSameDirection(OhnO state, Point position, Direction direction,
+			Set<TokenAndDirection> forDeletion) {
+		Token[][] board = state.getBoard();
 		int x = position.x;
 		int y = position.y;
 
 		x += direction.getX();
 		y += direction.getY();
 
-		while (canSee(board,x, y)) {
+		while (state.canSee(x, y)) {
+			Token token = board[x][y];
+			if (token.isNumber()) {
+				forDeletion.add(new TokenAndDirection(token, direction, new Point(x, y)));
+			}
 			x += direction.getX();
 			y += direction.getY();
-			tokenAndDirections
 		}
 
 	}
 
-
-
-	private boolean fillTokenAndDirection(OhnO state,Set<TokenAndDirection> tokenAndDirections){
+	private boolean fillTokenAndDirection(OhnO state, Set<TokenAndDirection> tokenAndDirections) {
 		Token[][] board = state.getBoard();
-		
-		for(Point numberPosition : state.getNumbersPositions()){
-			int weight = weight(board, numberPosition);
-			if(weight>0){
-				for(Direction direction : directions){
-					tokenAndDirections.add(new TokenAndDirection(board[numberPosition.x][numberPosition.y, direction));
+
+		for (Point numberPosition : state.getNumbersPositions()) {
+			int weight = state.weight(numberPosition);
+			if (weight > 0) {
+				for (Direction direction : directions) {
+					tokenAndDirections.add(new TokenAndDirection(board[numberPosition.x][numberPosition.y], direction,
+							numberPosition));
 				}
-			}else if(weight<0){
+			} else if (weight < 0) {
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
-	
-	
-	
-	class TokenAndDirection{
+
+	class TokenAndDirection {
+		private Point position;
 		private Token token;
 		private Direction direction;
-		
-		public TokenAndDirection(Token token, Direction direction) {
+
+		public TokenAndDirection(Token token, Direction direction, Point position) {
 			super();
 			this.token = token;
 			this.direction = direction;
+			this.position = position;
 		}
-		
-		
 
 		public Token getToken() {
 			return token;
 		}
 
-
-
 		public Direction getDirection() {
 			return direction;
 		}
 
-
+		public Point getPosition() {
+			return position;
+		}
 
 		@Override
 		public int hashCode() {
@@ -109,6 +112,7 @@ public class H2 extends Heuristic{
 			int result = 1;
 			result = prime * result + getOuterType().hashCode();
 			result = prime * result + ((direction == null) ? 0 : direction.hashCode());
+			result = prime * result + ((position == null) ? 0 : position.hashCode());
 			result = prime * result + ((token == null) ? 0 : token.hashCode());
 			return result;
 		}
@@ -126,6 +130,11 @@ public class H2 extends Heuristic{
 				return false;
 			if (direction != other.direction)
 				return false;
+			if (position == null) {
+				if (other.position != null)
+					return false;
+			} else if (!position.equals(other.position))
+				return false;
 			if (token == null) {
 				if (other.token != null)
 					return false;
@@ -137,9 +146,7 @@ public class H2 extends Heuristic{
 		private H2 getOuterType() {
 			return H2.this;
 		}
-		
-		
+
 	}
-	
 
 }
