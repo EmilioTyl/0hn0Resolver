@@ -27,6 +27,7 @@ public class OhnOProblem implements GPSProblem {
 	private int boardY;
 	private Heuristic heuristic;
 	private GPSStatistics statistics;
+	private CompoundStatistics newStatistics;
 
 	public OhnOProblem(Algorithm algorithm, Heuristic heuristic, int boardX, int boardY, Map<Point, Token> tokens,GPSStatistics statistics) {
 		this.algorithm = algorithm;
@@ -64,9 +65,13 @@ public class OhnOProblem implements GPSProblem {
 
 	@Override
 	public void goalState(GPSState state) {
-		GPSStatistics newStatistics = new CompoundStatistics(statistics,"Phase 2");
+		newStatistics = new CompoundStatistics(statistics,"Phase 2");
 		GPSProblem problem = new OhnOFinalStageProblem(state, algorithm.getCost(),newStatistics);
 		algorithm.execute(problem,newStatistics);
+	}
+
+	public GPSStatistics getCompoundStatistics() {
+		return newStatistics;
 	}
 
 }

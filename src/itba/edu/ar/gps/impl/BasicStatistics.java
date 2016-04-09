@@ -75,8 +75,8 @@ public class BasicStatistics implements GPSStatistics {
 	}
 
 	public void printStatistics() {
-		printStatistics(getAnalizedNodes(), getExplodedNodes(), getSolutionCost(), getSolutionDepth(),
-				getExecutionTime());
+		printStatistics(analizedNodes, explodedNodes, solutionCost, solutionDepth,
+				executionTime);
 	}
 
 	protected void printStatistics(long analizedNodes, long explodedNodes, long solutionCost, long solutionDepth,
