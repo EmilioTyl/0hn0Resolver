@@ -29,7 +29,7 @@ Also some heuristics are provided (more detail about the used metrics is given i
 * H2I (h2i)
 	+ Inadmissible
 * H2A (h2a)
-	+ Inadmissible
+	+ Admissible
 
 Take into account that only A* and Greedy work with heuristic, therefore it would make no sense to execute the resolver with DFS/BFS/IDFS and a heuristic.
 
