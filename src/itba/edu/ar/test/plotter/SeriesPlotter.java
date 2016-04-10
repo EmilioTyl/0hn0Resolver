@@ -11,7 +11,6 @@ import org.knowm.xchart.BitmapEncoder;
 import org.knowm.xchart.BitmapEncoder.BitmapFormat;
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYChartBuilder;
-import org.knowm.xchart.XYSeries.XYSeriesRenderStyle;
 import org.knowm.xchart.style.Styler.LegendPosition;
 
 public class SeriesPlotter implements Plotter {

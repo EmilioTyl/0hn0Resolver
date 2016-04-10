@@ -11,7 +11,7 @@ import itba.edu.ar.model.Direction;
 import itba.edu.ar.model.OhnO;
 import itba.edu.ar.model.Token;
 
-public class H2 extends Heuristic {
+public class H2Inadmissible extends Heuristic {
 
 	private static List<Direction> directions = new LinkedList<Direction>();
 
@@ -24,15 +24,14 @@ public class H2 extends Heuristic {
 	public int getHeuristicValue(OhnO state) {
 		Set<TokenAndDirection> tokenAndDirections = new HashSet<TokenAndDirection>();
 		if (!fillTokenAndDirection(state, tokenAndDirections))
-			return Integer.MAX_VALUE;
+			return state.getBoardX()*state.getBoardY();
 
 		removeInteresectingNumbers(state, tokenAndDirections);
 
-		return tokenAndDirections.size()/2;
+		return tokenAndDirections.size();
 	}
 
 	private void removeInteresectingNumbers(OhnO state, Set<TokenAndDirection> tokenAndDirections) {
-		Token[][] board = state.getBoard();
 		Set<TokenAndDirection> forDeletion = new HashSet<TokenAndDirection>();
 
 		for (TokenAndDirection tnd : tokenAndDirections) {
@@ -143,15 +142,15 @@ public class H2 extends Heuristic {
 			return true;
 		}
 
-		private H2 getOuterType() {
-			return H2.this;
+		private H2Inadmissible getOuterType() {
+			return H2Inadmissible.this;
 		}
 
 	}
 	
 	@Override
 	public String toString() {
-		return "H2 - (Plays/Number of walls) lower boundary";
+		return "H2I";
 	}
 
 }
