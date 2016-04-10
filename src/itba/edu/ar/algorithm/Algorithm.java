@@ -9,6 +9,9 @@ public abstract class Algorithm {
 
 	public abstract Cost getCost();
 	
+	public boolean shouldShuffleRules(){
+		return false;
+	}
 
 	public void execute(GPSProblem problem) {
 		execute(problem, new OriginalStatistics());

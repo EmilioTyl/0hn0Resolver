@@ -5,7 +5,7 @@ import itba.edu.ar.gps.api.GPSStatistics;
 
 public class BasicStatistics implements GPSStatistics {
 
-	private static final int TO_MILLISECONDS = 1000;
+	private static final int TO_MILLISECONDS = 1000000;
 	private long startTime;
 	private double executionTime;
 	private long analizedNodes = 0;
@@ -30,7 +30,7 @@ public class BasicStatistics implements GPSStatistics {
 
 	@Override
 	public void endSearch() {
-		executionTime = (System.nanoTime() - startTime) * TO_MILLISECONDS;
+		executionTime = (System.nanoTime() - startTime) / TO_MILLISECONDS;
 	}
 
 	@Override

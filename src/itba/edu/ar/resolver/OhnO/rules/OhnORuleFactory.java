@@ -1,11 +1,13 @@
 package itba.edu.ar.resolver.OhnO.rules;
 
 import java.awt.Point;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import itba.edu.ar.algorithm.Algorithm;
 import itba.edu.ar.algorithm.cost.Cost;
 import itba.edu.ar.gps.api.GPSRule;
 import itba.edu.ar.model.Direction;
@@ -15,13 +17,15 @@ import itba.edu.ar.model.Token;
 public class OhnORuleFactory {
 
 	private List<GPSRule> rules = new LinkedList<GPSRule>();
+	private Algorithm algorithm;
 
-	public OhnORuleFactory(OhnO state, Cost cost) {
+	public OhnORuleFactory(OhnO state, Algorithm algorithm) {
 		Set<OhnORule> rules = new HashSet<OhnORule>();
+		this.algorithm = algorithm;
 
 		Token[][] tokens = state.getBoard();
 		List<Point> numbersPositions = state.getNumbersPositions();
-		maybeCreateRules(numbersPositions, tokens, rules,cost);
+		maybeCreateRules(numbersPositions, tokens, rules, algorithm.getCost());
 		fillRulesList(rules);
 	}
 
@@ -31,8 +35,7 @@ public class OhnORuleFactory {
 		}
 	}
 
-	public void maybeCreateRules(List<Point> numbersPositions, Token[][] tokens, Set<OhnORule> rules,
-			Cost cost) {
+	public void maybeCreateRules(List<Point> numbersPositions, Token[][] tokens, Set<OhnORule> rules, Cost cost) {
 
 		for (Point numberPosition : numbersPositions) {
 			for (Direction direction : Direction.values()) {
@@ -73,6 +76,9 @@ public class OhnORuleFactory {
 	}
 
 	public List<GPSRule> getRules() {
+		if (algorithm.shouldShuffleRules())
+			Collections.shuffle(rules);
+
 		return rules;
 	}
 

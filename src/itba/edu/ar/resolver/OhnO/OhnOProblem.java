@@ -41,7 +41,7 @@ public class OhnOProblem implements GPSProblem {
 	@Override
 	public GPSState getInitState() {
 		OhnO state = new OhnO(boardX, boardY, tokens);
-		ruleFactory = new OhnORuleFactory(state, algorithm.getCost());
+		ruleFactory = new OhnORuleFactory(state, algorithm);
 		return state;
 	}
 
@@ -66,7 +66,7 @@ public class OhnOProblem implements GPSProblem {
 	@Override
 	public void goalState(GPSState state) {
 		newStatistics = new CompoundStatistics(statistics,"Phase 2");
-		GPSProblem problem = new OhnOFinalStageProblem(state, algorithm.getCost(),newStatistics);
+		GPSProblem problem = new OhnOFinalStageProblem(state, algorithm,newStatistics);
 		algorithm.execute(problem,newStatistics);
 	}
 

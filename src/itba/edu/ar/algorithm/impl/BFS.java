@@ -28,4 +28,9 @@ public class BFS extends Algorithm{
 		
 	}
 	
+	@Override
+	public boolean shouldShuffleRules() {
+		return true;
+	}
+	
 }

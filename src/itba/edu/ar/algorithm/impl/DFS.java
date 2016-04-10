@@ -8,7 +8,7 @@ import itba.edu.ar.gps.GPSEngine;
 import itba.edu.ar.gps.api.GPSProblem;
 import itba.edu.ar.gps.api.GPSStatistics;
 
-public class DFS extends Algorithm{
+public class DFS extends Algorithm {
 
 	@Override
 	public Cost getCost() {
@@ -16,15 +16,20 @@ public class DFS extends Algorithm{
 	}
 
 	@Override
-	public void execute(GPSProblem problem,GPSStatistics statistics) {
-		GPSEngine engine = new GPSEngine(new DFSComparator(), problem,statistics);
+	public void execute(GPSProblem problem, GPSStatistics statistics) {
+		GPSEngine engine = new GPSEngine(new DFSComparator(), problem, statistics);
 		engine.engine();
-		
+
 	}
 
 	@Override
 	public String toString() {
 		return "DFS";
-	}	
-	
+	}
+
+	@Override
+	public boolean shouldShuffleRules() {
+		return true;
+	}
+
 }
