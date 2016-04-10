@@ -2,8 +2,6 @@ package itba.edu.ar.model;
 
 import java.awt.Point;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +17,7 @@ public class OhnO implements GPSState {
 	private TokenFactory tokenFactory = TokenFactory.getInstance();
 	private int boardX;
 	private int boardY;
+	private String move;
 
 	public OhnO(int boardX, int boardY, Map<Point, Token> tokens) {
 		board = new Token[boardX][boardY];
@@ -45,12 +44,12 @@ public class OhnO implements GPSState {
 		
 	}
 
-	private OhnO(Token[][] board, List<Point> numbersPositions, TokenFactory tokenFactory) {
+	private OhnO(Token[][] board, List<Point> numbersPositions, String move) {
 		this.board = board;
 		this.boardX = board[0].length;
 		this.boardY = board.length;
 		this.numbersPositions = numbersPositions;
-		this.tokenFactory = tokenFactory;
+		this.move=move;
 	}
 
 	@Override
@@ -83,37 +82,14 @@ public class OhnO implements GPSState {
 		return true;
 	}
 
-	public int h1() {
-		int ans = 0;
-		for (Point numberPosition : numbersPositions) {
-			int weight = weight(numberPosition);
-			if (weight < 0)
-				return Integer.MAX_VALUE;
-			ans += weight;
-		}
-		return ans;
-	}
-	
-	public int h2(){
-		int ans = 0;
-		for (Point numberPosition : numbersPositions) {
-			int weight = weight(numberPosition);
-			if (weight < 0)
-				return Integer.MAX_VALUE;
-			if(ans!=0)
-				ans++;
-		}
-		return ans;
-	}
-
-	private int weight(Point position) {
+	public int weight(Point position) {
 		int ans = 0;
 		for (Direction direction : Direction.values()) {
 			ans += weight(position, direction);
 		}
 		return ans - board[position.x][position.y].getNumber();
 	}
-
+	
 	private int weight(Point position, Direction direction) {
 		int x = position.x;
 		int y = position.y;
@@ -128,11 +104,10 @@ public class OhnO implements GPSState {
 			ans++;
 		}
 		return ans;
-
 	}
-
-	private boolean canSee(int x, int y) {
-		if (!insideBoundaries(x, y))
+	
+	public boolean canSee(int x, int y) {
+		if (!insideBoundaries(board,x, y))
 			return false;
 
 		Token token = board[x][y];
@@ -140,19 +115,23 @@ public class OhnO implements GPSState {
 		return !token.isWall();
 	}
 
-	private boolean insideBoundaries(int x, int y) {
+	private boolean insideBoundaries(Token[][] board,int x, int y) {
+		int boardX = board[0].length;
+		int boardY = board.length;
+		
 		return x >= 0 && x < boardX && y >= 0 && y < boardY;
 	}
 
-	public GPSState placeRed(Point redPosition) throws NotAppliableException {
 
-		if (board[redPosition.x][redPosition.y].isWall())
+	public GPSState placeWall(Point wallPosition, String move) throws NotAppliableException {
+
+		if (board[wallPosition.x][wallPosition.y].isWall())
 			throw new NotAppliableException();
 
 		Token[][] ans = copy();
-		ans[redPosition.x][redPosition.y] = tokenFactory.getWall();
+		ans[wallPosition.x][wallPosition.y] = tokenFactory.getWall();
 
-		return new OhnO(ans, numbersPositions, tokenFactory);
+		return new OhnO(ans, numbersPositions,move);
 	}
 
 	private Token[][] copy() {
@@ -176,7 +155,11 @@ public class OhnO implements GPSState {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-
+		
+		if(move!=null){
+			sb.append(move).append("\n");
+		}
+		
 		for (int i = 0; i < boardX; i++) {
 			for (int j = 0; j < boardY; j++) {
 				sb.append(board[i][j]).append(" ");
@@ -184,7 +167,12 @@ public class OhnO implements GPSState {
 			sb.append("\n");
 		}
 		sb.append("\n").append("---------------").append("\n");
-		return sb.toString();
+		String ans = sb.toString();
+		
+		//The string is reseted for the OhnOFinalStageProblem's initial state.
+		move="";
+		
+		return ans;
 	}
 
 	private boolean hasIsolatedFloors() {
@@ -236,6 +224,14 @@ public class OhnO implements GPSState {
 
 	public int hFinalGoal() {
 		return getIsolatedFloorsQuantity();
+	}
+	
+	public int getBoardX(){
+		return boardX;
+	}
+	
+	public int getBoardY(){
+		return boardY;
 	}
 
 }

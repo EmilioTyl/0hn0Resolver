@@ -22,4 +22,9 @@ public class DFS implements Algorithm{
 		
 	}
 
+	@Override
+	public String toString() {
+		return "DFS";
+	}	
+	
 }
