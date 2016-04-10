@@ -11,7 +11,7 @@ import itba.edu.ar.gps.api.GPSStatistics;
 import itba.edu.ar.gps.impl.BasicStatistics;
 import itba.edu.ar.heuristic.Heuristic;
 import itba.edu.ar.heuristic.impl.H1;
-import itba.edu.ar.heuristic.impl.H2;
+import itba.edu.ar.heuristic.impl.H2Inadmissible;
 import itba.edu.ar.input.FileParser;
 import itba.edu.ar.resolver.OhnO.OhnOProblem;
 import itba.edu.ar.test.plotter.Plotter;
@@ -20,7 +20,7 @@ import itba.edu.ar.test.plotter.SeriesPlotter;
 public class AlgorithmStatistics {
 
 	private static int maxQuantityofBoardsPerDimension = 4;
-	private static String filePath = System.getProperty("user.dir") + "/doc/";
+	private static String filePath = System.getProperty("user.dir") + "/doc/board/";
 
 	private interface Stat {
 		public double getValue(GPSStatistics statistics);
@@ -39,32 +39,33 @@ public class AlgorithmStatistics {
 		addStatToPlotter(a, h, exceptions, simulationTimes, boardDimensions, plotter, executionTimeGetter);
 	}
 
-	public static void compareExplodedNodes(Algorithm a1, Heuristic h1, List<String> exceptions1, Algorithm a2,
+	public static void compareExplodedNodes(Algorithm a1, Heuristic h1, Algorithm a2,
 			Heuristic h2, List<String> exceptions2, int simulationTimes, int[] boardDimensions, Plotter plotter)
 			throws IOException {
-		compare(a1, h1, exceptions1, a2, h2, exceptions2, simulationTimes, boardDimensions, plotter,
+		compare(a1, h1, a2, h2, exceptions2, simulationTimes, boardDimensions, plotter,
 				explodedNodesGetter);
 	}
 
-	public static void compareExecutionTime(Algorithm a1, Heuristic h1, List<String> exceptions1, Algorithm a2,
+	public static void compareExecutionTime(Algorithm a1, Heuristic h1, Algorithm a2,
 			Heuristic h2, List<String> exceptions2, int simulationTimes, int[] boardDimensions, Plotter plotter)
 			throws IOException {
-		compare(a1, h1, exceptions1, a2, h2, exceptions2, simulationTimes, boardDimensions, plotter,
+		compare(a1, h1, a2, h2, exceptions2, simulationTimes, boardDimensions, plotter,
 				executionTimeGetter);
 	}
 
-	private static void compare(Algorithm a1, Heuristic h1, List<String> exceptions1, Algorithm a2, Heuristic h2,
-			List<String> exceptions2, int simulationTimes, int[] boardDimensions, Plotter plotter, Stat stat)
+	private static void compare(Algorithm a1, Heuristic h1, Algorithm a2, Heuristic h2,
+			List<String> exceptions, int simulationTimes, int[] boardDimensions, Plotter plotter, Stat stat)
 			throws IOException {
 
 		for (int dimension : boardDimensions) {
 			for (int file = 1; file <= maxQuantityofBoardsPerDimension; file++) {
 				String fileName = dimension + "x" + dimension + "_" + file;
 
-				double executionTime1 = getStat(a1, h1, simulationTimes, fileName, exceptions1, stat);
-				double executionTime2 = getStat(a2, h2, simulationTimes, fileName, exceptions2, stat);
+				double executionTime1 = getStat(a1, h1, simulationTimes, fileName, exceptions, stat);
+				double executionTime2 = getStat(a2, h2, simulationTimes, fileName, exceptions, stat);
 
-				plotter.addSeriesPoint(dimension, executionTime1, executionTime2);
+				if(executionTime1!=0&&executionTime2!=0)
+					plotter.addSeriesPoint(dimension, executionTime1, executionTime2);
 			}
 		}
 
@@ -78,7 +79,8 @@ public class AlgorithmStatistics {
 
 				double executionTime = getStat(a, h, simulationTimes, fileName, exceptions, stat);
 
-				plotter.addSeriesPoint(dimension, executionTime);
+				if(executionTime!=0)
+					plotter.addSeriesPoint(dimension, executionTime);
 
 			}
 		}

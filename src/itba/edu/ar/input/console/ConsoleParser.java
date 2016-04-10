@@ -14,7 +14,8 @@ import itba.edu.ar.gps.api.GPSStatistics;
 import itba.edu.ar.gps.impl.BasicStatistics;
 import itba.edu.ar.heuristic.Heuristic;
 import itba.edu.ar.heuristic.impl.H1;
-import itba.edu.ar.heuristic.impl.H2;
+import itba.edu.ar.heuristic.impl.H2Admissible;
+import itba.edu.ar.heuristic.impl.H2Inadmissible;
 import itba.edu.ar.input.FileParser;
 import itba.edu.ar.model.OhnO;
 import itba.edu.ar.resolver.OhnO.OhnOProblem;
@@ -86,8 +87,10 @@ public class ConsoleParser {
 		switch (heuristicName) {
 		case "h1":
 			return new H1();
-		case "h2":
-			return new H2();
+		case "h2i":
+			return new H2Inadmissible();
+		case "h2a":
+			return new H2Admissible();
 		}
 
 		return null;
