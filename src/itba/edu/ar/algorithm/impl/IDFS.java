@@ -21,8 +21,8 @@ public class IDFS extends Algorithm{
 		int iteration = 1;
 		while (!finished) {
 			GPSEngine engine = new GPSEngine(new DFSComparator(), problem, statistics,iteration);
+			System.out.println("\niteration depth: " + iteration);
 			finished = engine.engine();
-			System.out.println("vuelta " + iteration);
 			iteration++;
 		}		
 	}

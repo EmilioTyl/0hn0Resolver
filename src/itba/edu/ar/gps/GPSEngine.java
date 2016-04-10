@@ -36,12 +36,12 @@ public class GPSEngine {
 	public GPSEngine(Comparator<GPSNode> comparator, GPSProblem problem, GPSStatistics statistics, int maxDepth) {
 		open = new PriorityQueue<>(comparator);
 		this.problem = problem;
+		this.statistics=statistics;
 		this.maxDepth = maxDepth;
 		this.maxDepthActivated = true;
 	}
 
 	public boolean engine() {
-
 		statistics.startSearch();
 		GPSNode rootNode = new GPSNode(problem.getInitState(), 0);
 		boolean finished = false;
