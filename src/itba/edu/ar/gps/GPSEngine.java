@@ -9,6 +9,7 @@ import java.util.Queue;
 import itba.edu.ar.gps.api.GPSProblem;
 import itba.edu.ar.gps.api.GPSRule;
 import itba.edu.ar.gps.api.GPSState;
+import itba.edu.ar.gps.api.GPSStatistics;
 import itba.edu.ar.gps.exception.NotAppliableException;
 
 public class GPSEngine {
@@ -19,13 +20,20 @@ public class GPSEngine {
 	private boolean maxDepthActivated;
 
 	private GPSProblem problem;
+	private GPSStatistics statistics;
 
 	public GPSEngine(Comparator<GPSNode> comparator, GPSProblem problem) {
 		open = new PriorityQueue<>(comparator);
 		this.problem = problem;
 	}
 
-	public GPSEngine(Comparator<GPSNode> comparator, GPSProblem problem, int maxDepth) {
+	public GPSEngine(Comparator<GPSNode> comparator, GPSProblem problem, GPSStatistics statistics) {
+		open = new PriorityQueue<>(comparator);
+		this.problem = problem;
+		this.statistics = statistics;
+	}
+
+	public GPSEngine(Comparator<GPSNode> comparator, GPSProblem problem, GPSStatistics statistics, int maxDepth) {
 		open = new PriorityQueue<>(comparator);
 		this.problem = problem;
 		this.maxDepth = maxDepth;
@@ -33,46 +41,39 @@ public class GPSEngine {
 	}
 
 	public boolean engine() {
-		long startTime = System.nanoTime();
+
+		statistics.startSearch();
 		GPSNode rootNode = new GPSNode(problem.getInitState(), 0);
 		boolean finished = false;
 		boolean failed = false;
-		long explosionCounter = 0;
-		long analizedNodes = 0;
 		open.add(rootNode);
 		while (!failed && !finished) {
 			if (open.size() <= 0) {
 				failed = true;
 			} else {
 				GPSNode currentNode = open.remove();
-				analizedNodes++;
+				statistics.analizeNode();
 				if (problem.isGoal(currentNode.getState())) {
 					finished = true;
 					System.out.println(currentNode.getSolution());
-					System.out.println("Analized states:\t" + analizedNodes);
-					System.out.println("Expanded nodes:\t" + explosionCounter);
-					System.out.println("Solution cost:\t" + currentNode.getCost());
-					System.out.println("Solution depth:\t"+currentNode.getDepth());
-					System.out.println("Execution time (milliseconds):\t"+getExecutionTimeInMilliseconds(startTime)+"ms");
-					System.out.println("OK! solution found!");
+					statistics.endSearch();
+					statistics.goalNode(currentNode);
 					problem.goalState(currentNode.getState());
 				} else {
 					if (!(maxDepthActivated && currentNode.getDepth() >= maxDepth)) {
-						if (explode(currentNode))
-							explosionCounter++;
+						if (explode(currentNode)) {
+							statistics.explodeNode();
+						}
 					}
 				}
 			}
 		}
 
-		if (failed)
-			System.err.println("FAILED! solution not found!");
+		if (failed) {
+			statistics.solutionNotFound();
+		}
 
 		return finished;
-	}
-
-	private double getExecutionTimeInMilliseconds(long startTime) {
-		return (System.nanoTime()-startTime)*1000;
 	}
 
 	private boolean explode(GPSNode node) {

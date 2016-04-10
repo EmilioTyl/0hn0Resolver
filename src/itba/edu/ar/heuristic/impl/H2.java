@@ -28,7 +28,7 @@ public class H2 extends Heuristic {
 
 		removeInteresectingNumbers(state, tokenAndDirections);
 
-		return tokenAndDirections.size();
+		return tokenAndDirections.size()/2;
 	}
 
 	private void removeInteresectingNumbers(OhnO state, Set<TokenAndDirection> tokenAndDirections) {

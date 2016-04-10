@@ -6,8 +6,9 @@ import itba.edu.ar.algorithm.cost.Cost;
 import itba.edu.ar.algorithm.cost.NoCost;
 import itba.edu.ar.gps.GPSEngine;
 import itba.edu.ar.gps.api.GPSProblem;
+import itba.edu.ar.gps.api.GPSStatistics;
 
-public class Greedy implements Algorithm{
+public class Greedy extends Algorithm{
 
 	@Override
 	public Cost getCost() {
@@ -15,8 +16,8 @@ public class Greedy implements Algorithm{
 	}
 
 	@Override
-	public void execute(GPSProblem problem) {
-		GPSEngine engine = new GPSEngine(new GreedyComparator(problem), problem);
+	public void execute(GPSProblem problem,GPSStatistics statistics) {
+		GPSEngine engine = new GPSEngine(new GreedyComparator(problem), problem,statistics);
 		engine.engine();
 	}
 	
