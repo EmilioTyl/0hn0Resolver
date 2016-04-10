@@ -2,13 +2,13 @@
 
 ##Instructions for running an algorithm on a board
 
-1. Compile the project
+#####1. Compile the project
 
 ```shell
 mvn package
 ```
 
-2. Run the algorithm-heuristic combination of your preference
+#####2. Run the algorithm-heuristic combination of your preference
 
 ```
 java -jar targe java -jar target/0hn0Resolver.jar algorithm [heuristic] file
@@ -33,7 +33,7 @@ Also some heuristics are provided (more detail about the used metrics is given i
 
 Take into account that only A* and Greedy work with heuristic, therefore it would make no sense to execute the resolver with DFS/BFS/IDFS and a heuristic.
 
-3. Enjoy!
+#####3. Enjoy!
 
 ##Usage Examples 
 
