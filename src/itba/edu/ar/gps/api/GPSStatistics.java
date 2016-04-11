@@ -12,7 +12,7 @@ public interface GPSStatistics {
 
 	public void explodeNode();
 
-	public void goalNode(GPSNode currentNode);
+	public void goalNode(GPSNode currentNode, long openSize);
 
 	public void solutionNotFound();
 
@@ -26,7 +26,11 @@ public interface GPSStatistics {
 
 	long getAnalizedNodes();
 
+	long getOpenSize();
+
 	double getExecutionTime();
+
+
 
 	
 }
