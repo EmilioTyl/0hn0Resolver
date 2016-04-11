@@ -26,8 +26,12 @@ public class CompoundStatistics extends BasicStatistics {
 		System.out.println("--------------------------------");
 
 		System.out.println("Total statistics");
-		super.printStatistics(getAnalizedNodes(), getExplodedNodes(), getSolutionCost(), getSolutionDepth(),
+		super.printStatistics(getAnalizedNodes(), getExplodedNodes(), getOpenSize(), getSolutionCost(), getSolutionDepth(),
 				getExecutionTime());
+	}
+
+	public long getOpenSize() {
+		return super.getOpenSize()+statistics.getOpenSize();
 	}
 
 	@Override

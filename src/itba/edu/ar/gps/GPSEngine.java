@@ -57,12 +57,15 @@ public class GPSEngine {
 					finished = true;
 					System.out.println(currentNode.getSolution());
 					statistics.endSearch();
-					statistics.goalNode(currentNode);
+					statistics.goalNode(currentNode, open.size());
+
 					problem.goalState(currentNode.getState());
 				} else {
 					if (!(maxDepthActivated && currentNode.getDepth() >= maxDepth)) {
 						if (explode(currentNode)) {
 							statistics.explodeNode();
+							
+
 						}
 					}
 				}
@@ -72,7 +75,6 @@ public class GPSEngine {
 		if (failed) {
 			statistics.solutionNotFound();
 		}
-
 		return finished;
 	}
 

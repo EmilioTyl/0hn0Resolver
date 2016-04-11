@@ -13,6 +13,7 @@ public class BasicStatistics implements GPSStatistics {
 	private long solutionCost;
 	private long solutionDepth;
 	private String name;
+	private long openSize = 0;
 
 	public BasicStatistics(String name) {
 		this.name=name;
@@ -44,9 +45,10 @@ public class BasicStatistics implements GPSStatistics {
 	}
 
 	@Override
-	public void goalNode(GPSNode currentNode) {
+	public void goalNode(GPSNode currentNode, long openSize) {
 		solutionCost = currentNode.getCost();
 		solutionDepth = currentNode.getDepth();
+		this.openSize=openSize;
 	}
 
 	@Override
@@ -66,6 +68,10 @@ public class BasicStatistics implements GPSStatistics {
 		return explodedNodes;
 	}
 
+	public long getOpenSize() {
+		return openSize;
+	}
+
 	public long getSolutionCost() {
 		return solutionCost;
 	}
@@ -75,18 +81,20 @@ public class BasicStatistics implements GPSStatistics {
 	}
 
 	public void printStatistics() {
-		printStatistics(analizedNodes, explodedNodes, solutionCost, solutionDepth,
+		printStatistics(analizedNodes, explodedNodes, openSize, solutionCost, solutionDepth,
 				executionTime);
 	}
 
-	protected void printStatistics(long analizedNodes, long explodedNodes, long solutionCost, long solutionDepth,
+	protected void printStatistics(long analizedNodes, long explodedNodes, long openSize, long solutionCost, long solutionDepth,
 			double executionTime) {
 		System.out.println("Analized states:\t" + analizedNodes);
 		System.out.println("Expanded nodes:\t" + explodedNodes);
+		System.out.println("Open size:\t" + openSize);
 		System.out.println("Solution cost:\t" + solutionCost);
 		System.out.println("Solution depth:\t" + solutionDepth);
 		System.out.println("Execution time (milliseconds):\t" + executionTime + "ms");
 		System.out.println("OK! solution found!");
 	}
+
 
 }
