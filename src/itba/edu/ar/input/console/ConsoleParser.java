@@ -8,7 +8,7 @@ import itba.edu.ar.algorithm.impl.AStar;
 import itba.edu.ar.algorithm.impl.BFS;
 import itba.edu.ar.algorithm.impl.DFS;
 import itba.edu.ar.algorithm.impl.Greedy;
-import itba.edu.ar.algorithm.impl.IDFS;
+import itba.edu.ar.algorithm.impl.IDDFS;
 import itba.edu.ar.gps.api.GPSProblem;
 import itba.edu.ar.gps.api.GPSStatistics;
 import itba.edu.ar.gps.impl.BasicStatistics;
@@ -46,8 +46,8 @@ public class ConsoleParser {
 				algorithm = new Greedy();
 				heuristicName = args[index++];
 				break;
-			case "idfs":
-				algorithm = new IDFS();
+			case "iddfs":
+				algorithm = new IDDFS();
 				break;
 			}
 

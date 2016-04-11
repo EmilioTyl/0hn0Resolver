@@ -8,7 +8,7 @@ import itba.edu.ar.gps.GPSEngine;
 import itba.edu.ar.gps.api.GPSProblem;
 import itba.edu.ar.gps.api.GPSStatistics;
 
-public class IDFS extends Algorithm{
+public class IDDFS extends Algorithm{
 
 	@Override
 	public Cost getCost() {
@@ -29,7 +29,7 @@ public class IDFS extends Algorithm{
 	
 	@Override
 	public String toString() {
-		return "IDFS";
+		return "IDDFS";
 	}
 
 }

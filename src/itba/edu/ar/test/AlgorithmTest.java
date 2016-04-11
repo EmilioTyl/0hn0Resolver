@@ -45,11 +45,10 @@ public class AlgorithmTest {
 				INADMISSIBLE_H2_EXCEPTIONS);
 		aStarWithH2Admissible = new AlgorithmAndHeuristic(new AStar(), new H2Admissible(), ADMISSIBLE_H2_EXCEPTIONS);
 		greedyWithH1 = new AlgorithmAndHeuristic(new Greedy(), new H1(), H1_EXCEPTIONS);
-
 	}
 
 	public static void main(String[] args) throws IOException {
-		//getStatComparation(compareExecutionTime, greedyWithH1, aStarWithH2Inadmissible, H1_BOARD_DIMENSIONS);
+		getStatComparation(compareExecutionTime, greedyWithH1, aStarWithH2Inadmissible, H1_BOARD_DIMENSIONS);
 		//getStatComparation(compareExplodedNodes, greedyWithH1, aStarWithH2Inadmissible, H1_BOARD_DIMENSIONS);
 		//getStat(executionTime, aStarWithH2Inadmissible, BOARD_DIMENSIONS);
 		//getStat(explodedNodes, aStarWithH2Inadmissible, BOARD_DIMENSIONS);
